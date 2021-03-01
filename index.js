@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
-const public = path.join(__dirname, 'public');
+const public = path.join(__dirname, 'views');
+const router = require('./routes/activityTrackerRoutes.js');
 
 var Datastore = require('nedb');
 db = new Datastore();
@@ -12,6 +13,7 @@ app.listen(3000, () => {
     console.log('Server started on port 3000. Ctrl^c to quit.');
 })
 
-app.get('/', function (req, res) {
-    res.sendFile(path.join(public, 'index.html'));
-})
+app.use('/', router);
+
+
+
