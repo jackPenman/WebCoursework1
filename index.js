@@ -5,6 +5,8 @@ const router = require('./routes/activityTrackerRoutes.js');
 const mustache = require('mustache-express');
 
 const app = express();
+app.engine('mustache', mustache());
+app.set('view engine', 'mustache');
 app.use(express.static(public));
 
 app.use('/', router);
