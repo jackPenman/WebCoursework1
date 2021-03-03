@@ -13,21 +13,10 @@ class Activity {
 
     init() {
         this.db.insert({
-            title: 'do a run',
-            description: 'run 10k',
-            dateCreated: '2021-03-01T18:25:43.511Z',
-            goalDate: '2021-03-04T18:25:43.511Z',
-            progress: '10.5'
+            DiaryOwner: 'Jim',
+            Activity: ['running', 'jogging']
         });
-        console.log('run inserted');
-        this.db.insert({
-            title: 'cycle',
-            description: 'clycle 10k',
-            dateCreated: '2021-03-10T18:25:43.511Z',
-            goalDate: '2021-03-11T18:25:43.511Z',
-            progress: '55'
-        });
-        console.log('cycle inserted');
+        console.log('Diary inserted');
     }
 
     getAllEntries() {
