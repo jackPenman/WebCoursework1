@@ -6,5 +6,5 @@ const db = new userDAO();
 exports.login_page = function (req, res) {
     db.init();
     db.getAllEntries();
-    res.sendFile(path.join(public, 'loginForm.html'));
+    res.render('loginForm');
 } 
