@@ -3,6 +3,7 @@ const path = require('path');
 const public = path.join(__dirname, 'views');
 const HomeController = require('../controllers/WeeklyController.js');
 const LoginController = require('../controllers/LoginController.js');
+const addController = require('../controllers/addConrtoller');
 
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.static(public));
 
 router.get('/', HomeController.landing_page)
 router.get('/login', LoginController.login_page)
+router.get('/add', addController.addActivity)
 router.get('/profile', function (req, res) {
     res.send("user profile page, will display information relating to current logged in user");
 })
