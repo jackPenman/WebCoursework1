@@ -33,6 +33,9 @@
     <ul>
         <li><a class="/" href="/">Home</a></li>
         <li><a href="/profile">Profile</a></li>
-        <li><a href="/login">logout</a></li>
-
+        {{#user}}
+       <li> <a id="logout" href="/logout" class="btn btn-primary"> Sign out</a></li>
+        {{/user}}
     </ul>
+
+

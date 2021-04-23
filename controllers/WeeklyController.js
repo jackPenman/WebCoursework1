@@ -2,18 +2,23 @@ const weeklyPlanDAO = require('../models/WeeklyPlan');
 const path = require('path');
 const public = path.join(__dirname, '../views');
 const dao = new weeklyPlanDAO("database.db");
+const UserDao = require('../models/user');
+const userdb = new UserDao("database.db");
+
 
 
 exports.landing_page = function (req, res) {
-    dao.getAllGoalsForUserAndWeek('Jim', '1').then((json) => {
+    let user = req.params.author;
+    dao.getAllGoalsForUserAndWeek(user, '1').then((json) => {
         res.render('homePage', {
             'weekNumber': 'Week 1',
+            'user': req.user,
             'goals': json.goals
         });
     }).catch((err) => {
         console.log('promise rejected', err);
         res.render('homePage', {
-            'weekNumber': 'Week 1',
+            'weekNumber': 'Error has occured',
             'goals': []
         });
     })

@@ -1,10 +1,13 @@
-const userDAO = require('../models/User');
+const UserDao = require('../models/user');
 const path = require('path');
 const public = path.join(__dirname, '../views');
-const db = new userDAO();
+const dao = new UserDao("database.db");
 
 exports.login_page = function (req, res) {
-    db.init();
-    db.getAllEntries();
     res.render('loginForm');
-} 
+}
+
+exports.post_login = function (req, res) {
+    console.log("login attempted");
+    res.redirect("/");
+}; 
