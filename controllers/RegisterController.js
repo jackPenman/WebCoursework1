@@ -1,6 +1,7 @@
 const path = require('path');
 const public = path.join(__dirname, '../views');
 const userDao = require('../models/user.js');
+const userdb = new userDao("database.db");
 
 
 exports.new_user_page = function (req, res) {
@@ -15,12 +16,12 @@ exports.post_new_user = function (req, res) {
         res.send(401, 'no user or no password');
         return;
     }
-    userDao.lookup(user, function (err, u) {
+    userdb.lookup(user, function (err, u) {
         if (u) {
             res.send(401, "User exists:", user);
             return;
         }
-        userDao.create(user, password);
+        userdb.create(user, password);
         res.redirect('/login');
     });
 }

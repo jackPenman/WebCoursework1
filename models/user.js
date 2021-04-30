@@ -1,17 +1,13 @@
-const Datastore = require("nedb");
 const bcrypt = require('bcrypt');
+const NeDB = require('nedb');
 const saltRounds = 10;
 class User {
     constructor(dbFilePath) {
         if (dbFilePath) {
-            //embedded
-            this.db = new Datastore({
-                filename: dbFilePath,
-                autoload: true
-            });
+            this.db = new NeDB({ filename: dbFilePath, autoload: true });
+            console.log('DB connected to ' + dbFilePath);
         } else {
-            //in memory
-            this.db = new Datastore();
+            this.db = new NeDB();
         }
     }
     // for the demo the password is the bcrypt of the user name

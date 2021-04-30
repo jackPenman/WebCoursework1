@@ -12,7 +12,33 @@ class WeeklyPlan {
 
     init() {
         this.db.insert({
-            planOwner: 'Jim',
+            planOwner: 'Peter',
+            weekNumber: '1',
+            goals: [{
+                title: 'running',
+                startDate: '2021-03-15',
+                endDate: '2021-03-19',
+                description: 'run 10 km',
+                progressMade: '45.5'
+            },
+            {
+                title: 'Push ups',
+                startDate: '2021-03-15',
+                endDate: '2021-03-19',
+                description: 'Do 40000 push ups',
+                progressMade: '10'
+            },
+            {
+                title: 'Dancing',
+                startDate: '2021-03-15',
+                endDate: '2021-03-19',
+                description: 'Dance for fun',
+                progressMade: '100'
+            }
+            ]
+        });
+        this.db.insert({
+            planOwner: 'Ann',
             weekNumber: '1',
             goals: [{
                 title: 'running',
@@ -71,6 +97,21 @@ class WeeklyPlan {
             })
         })
     }
+
+    deleteEntry(title, week) {
+        return new Promise((resolve, reject) => {
+            this.db.remove({}, {}, {}, function (err, updatedGoals) {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                } else {
+                    resolve(updatedGoals);
+                }
+            })
+        })
+    }
 }
+
+
 
 module.exports = WeeklyPlan; 

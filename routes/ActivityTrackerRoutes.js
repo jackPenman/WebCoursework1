@@ -3,19 +3,23 @@ const path = require('path');
 const public = path.join(__dirname, 'views');
 const HomeController = require('../controllers/WeeklyController.js');
 const LoginController = require('../controllers/LoginController.js');
+const LogoutController = require('../controllers/logoutController.js');
 const RegisterController = require('../controllers/RegisterController.js');
 const auth = require('../auth.js');
+const { ensureLoggedIn } = require('connect-ensure-login');
 const app = express();
 const router = express.Router();
 app.use(express.static(public));
 
-router.get('/', HomeController.landing_page)
-router.post('/add', HomeController.post_new_entry);
+router.get('/', ensureLoggedIn('/login'), HomeController.landing_page)
+router.post('/add', ensureLoggedIn('/login'), HomeController.post_new_entry);
+router.get('/plan', ensureLoggedIn('/login'), HomeController.addPlan);
 router.post('/register', RegisterController.post_new_user);
 router.post("/login", auth.authorize("/login"), LoginController.post_login);
 router.get('/register', RegisterController.new_user_page);
 router.get('/login', LoginController.login_page)
-router.get('/profile', function (req, res) {
+router.get("/logout", ensureLoggedIn('/login'), LogoutController.logout);
+router.get('/profile', ensureLoggedIn('/login'), function (req, res) {
     res.send("user profile page, will display information relating to current logged in user");
 })
 
