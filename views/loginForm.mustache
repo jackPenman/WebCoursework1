@@ -43,11 +43,17 @@
 <body>
     <div class="login-form">
         <h1>Login Form</h1>
-        <form action="auth" method="POST">
+        <form action="/login" method="POST">
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="submit">
         </form>
+    <div class="text-right" style="margin-bo@om: 1em;">
+        <a id="login" href="/register" class="btn btn-primary">
+         Register
+         </a>
+    </div>
+
     </div>
 </body>
 
