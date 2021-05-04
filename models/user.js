@@ -14,17 +14,13 @@ class User {
     init() {
         this.db.insert({
             user: 'Peter',
-            password: '$2b$10$I82WRFuGghOMjtu3LLZW9OAMrmYOlMZjEEkh.vx.K2MM05iu5hY2C',
-            diaryID: '1'
-
+            password: '$2b$10$I82WRFuGghOMjtu3LLZW9OAMrmYOlMZjEEkh.vx.K2MM05iu5hY2C'
         });
         //console.log('user record inserted in init');
 
         this.db.insert({
             user: 'Ann',
-            password: '$2b$10$bnEYkqZM.MhEF/LycycymOeVwkQONq8kuAUGx6G5tF9UtUcaYDs3S',
-            diaryID: '2'
-
+            password: '$2b$10$bnEYkqZM.MhEF/LycycymOeVwkQONq8kuAUGx6G5tF9UtUcaYDs3S'
         });
         //console.log('user record inserted in init');
         return this;
@@ -36,7 +32,7 @@ class User {
                 user: username,
                 password: hash,
             };
-            //console.log('user entry is: ', entry);
+            console.log('user entry is: ', entry);
 
             that.db.insert(entry, function (err) {
                 if (err) {

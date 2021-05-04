@@ -1,3 +1,0 @@
-{"user":"Peter","password":"$2b$10$I82WRFuGghOMjtu3LLZW9OAMrmYOlMZjEEkh.vx.K2MM05iu5hY2C","diaryID":"1","_id":"VeuGwnN27a56y1Kk"}
-{"user":"Ann","password":"$2b$10$bnEYkqZM.MhEF/LycycymOeVwkQONq8kuAUGx6G5tF9UtUcaYDs3S","diaryID":"2","_id":"pRfbvmrn3LOiifpC"}
-{"planOwner":"Peter","weekNumber":"1","goals":[{"title":"running","startDate":"2021-03-15","endDate":"2021-03-19","description":"run 10 km","progressMade":"45.5"},{"title":"Push ups","startDate":"2021-03-15","endDate":"2021-03-19","description":"Do 40000 push ups","progressMade":"10"},{"title":"Dancing","startDate":"2021-03-15","endDate":"2021-03-19","description":"Dance for fun","progressMade":"100"}],"_id":"xTaepurINFfBlyqM"}

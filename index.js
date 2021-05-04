@@ -7,10 +7,6 @@ const bodyParser = require('body-parser')
 const auth = require('./auth.js');
 const session = require('express-session');
 const passport = require('passport');
-const UserDao = require('./models/user.js');
-const weeklyPlanDAO = require('./models/WeeklyPlan.js');
-const userdb = new UserDao("database.db");
-const dao = new weeklyPlanDAO("database.db");
 
 const app = express();
 app.engine('mustache', mustache());
@@ -23,8 +19,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-// userdb.init();
-// dao.init();
 auth.init(app);
 app.use('/', router);
 

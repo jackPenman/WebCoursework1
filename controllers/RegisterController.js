@@ -1,7 +1,7 @@
 const path = require('path');
 const public = path.join(__dirname, '../views');
 const userDao = require('../models/user.js');
-const userdb = new userDao("database.db");
+const userdb = new userDao("user.db");
 
 
 exports.new_user_page = function (req, res) {

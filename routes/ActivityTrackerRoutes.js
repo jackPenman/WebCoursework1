@@ -14,6 +14,7 @@ app.use(express.static(public));
 router.get('/', ensureLoggedIn('/login'), HomeController.landing_page)
 router.post('/add', ensureLoggedIn('/login'), HomeController.post_new_entry);
 router.get('/plan', ensureLoggedIn('/login'), HomeController.addPlan);
+router.post('/plan', ensureLoggedIn('/login'), HomeController.create_new_plan);
 router.post('/register', RegisterController.post_new_user);
 router.post("/login", auth.authorize("/login"), LoginController.post_login);
 router.get('/register', RegisterController.new_user_page);

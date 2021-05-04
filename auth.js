@@ -2,7 +2,7 @@ const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const UserDao = require('./models/user');
 const bcrypt = require('bcrypt');
-const userModel = new UserDao("database.db");
+const userModel = new UserDao("user.db");
 exports.init = function (app) {
     // setup password
     passport.use(new Strategy(
