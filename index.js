@@ -7,8 +7,11 @@ const bodyParser = require('body-parser')
 const auth = require('./auth.js');
 const session = require('express-session');
 const passport = require('passport');
+// const weeklyPlanDAO = require('./models/WeeklyPlan');
+// const dao = new weeklyPlanDAO("weeklyPlan.db");
 
 const app = express();
+// dao.init();
 app.engine('mustache', mustache());
 app.set('view engine', 'mustache');
 app.use(express.static(public));

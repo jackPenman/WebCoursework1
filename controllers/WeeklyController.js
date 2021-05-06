@@ -2,22 +2,31 @@ const weeklyPlanDAO = require('../models/WeeklyPlan');
 const path = require('path');
 const public = path.join(__dirname, '../views');
 const dao = new weeklyPlanDAO("weeklyPlan.db");
-const UserDao = require('../models/user');
-const userdb = new UserDao("user.db");
+// const UserDao = require('../models/user');
+// const userdb = new UserDao("user.db");
 
 exports.landing_page = function (req, res) {
     let user = req.user.user;
-    console.log(user);
-    dao.getAllGoalsForUserAndWeek(user, '2021-03-15').then((json) => {
+    res.render('homePage', {
+        'startDate': 'Select a date to view weekly plan',
+        'user': user,
+        'goals': []
+    });
+}
+
+exports.change_week = function (req, res) {
+    let user = req.user.user;
+    let chosenDate = getMonday(req.body.chosenDate);
+    dao.getAllGoalsForUserAndWeek(user, chosenDate).then((json) => {
         res.render('homePage', {
-            'weekNumber': json.weekStartDate,
+            'startDate': "week start date : " + json.weekStartDate,
             'user': user,
             'goals': json.goals
         });
     }).catch((err) => {
         console.log('promise rejected', err);
         res.render('homePage', {
-            'weekNumber': 'Error has occured',
+            'startDate': 'No weekly plan found for selected date',
             'goals': []
         });
     })
@@ -31,8 +40,13 @@ exports.addPlan = function (req, res) {
     res.render('addPlan');
 }
 
+exports.get_new_entry = function (req, res) {
+    res.render('addActivity');
+}
+
 exports.post_new_entry = function (req, res) {
-    dao.addEntry(req.body.title, req.body.description, req.body.startDate, req.body.endDate, 'Jim', getMonday(req.body.weekStartDate)).then((updatedRows) => {
+    console.log(getMonday(req.body.weekStartDate));
+    dao.addEntry(req.body.title, req.body.description, req.body.startDate, req.body.endDate, req.user.user, getMonday(req.body.weekStartDate)).then((updatedRows) => {
         console.log("rows updated: " + updatedRows);
         res.redirect('/');
     }).catch((err) => {
@@ -47,7 +61,7 @@ function getMonday(d) {
     var day = d.getDay(),
         diff = d.getDate() - day + (day == 0 ? -6 : 1);
     let monday = new Date(d.setDate(diff));
-    let resultString = monday.getFullYear() + "-" + monday.getMonth() + "-" + monday.getDate();
+    let resultString = monday.getFullYear() + "-" + (monday.getMonth() + 1) + "-" + monday.getDate();
     return resultString;
 }
 
@@ -76,23 +90,6 @@ exports.create_new_plan = function (req, res) {
             progressMade: 0
         },
     ]
-    console.log(goals);
-    console.log("username for this: " + req.user.user);
     dao.addNewPlan(weekstart, req.user.user, goals);
     res.redirect('/');
-}
-
-function isDateInThisWeek(weekBeginning, date) {
-    const todayDate = weekBeginning.getDate();
-    const todayDay = weekBeginning.getDay();
-
-    // get first date of week
-    const firstDayOfWeek = new Date(todayObj.setDate(todayDate - todayDay));
-
-    // get last date of week
-    const lastDayOfWeek = new Date(firstDayOfWeek);
-    lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 6);
-
-    // if date is equal or within the first and last dates of the week
-    return date >= firstDayOfWeek && date <= lastDayOfWeek;
 }

@@ -65,7 +65,10 @@ class WeeklyPlan {
         });
     }
 
+
+
     getAllGoalsForUserAndWeek(username, weekStartDate) {
+        console.log("week start date " + weekStartDate);
         return new Promise((resolve, reject) => {
             this.db.findOne({ planOwner: username, weekStartDate: weekStartDate }, function (err, entry) {
                 if (err) {
@@ -77,34 +80,14 @@ class WeeklyPlan {
         })
     }
 
-    addEntry(title, description, startDate, endDate, username, weekNumber) {
-        var goal = {
-            title: title,
-            description: description,
-            startDate: startDate,
-            endDate: endDate,
-            progressMade: 0
-        }
-        console.log(goal);
-        return new Promise((resolve, reject) => {
-            this.db.insert({ planOwner: username, weekNumber: weekNumber }, { $push: { goals: goal } }, {}, function (err, updatedGoals) {
-                if (err) {
-                    console.log(err);
-                    reject(err);
-                } else {
-                    resolve(updatedGoals);
-                }
-            })
-        })
-    }
 
     addNewPlan(weekstartDate, userName, goals) {
         this.db.insert({
             planOwner: userName,
-            startDate: weekstartDate,
+            weekStartDate: weekstartDate,
             goals: goals
         })
-    } s
+    }
 
     deleteEntry(title, week) {
         return new Promise((resolve, reject) => {
@@ -118,6 +101,29 @@ class WeeklyPlan {
             })
         })
     }
+
+    addEntry(title, description, startDate, endDate, username, weekStart) {
+        console.log(weekStart);
+        var goal = {
+            title: title,
+            description: description,
+            startDate: startDate,
+            endDate: endDate,
+            progressMade: 0
+        }
+        console.log(goal);
+        return new Promise((resolve, reject) => {
+            this.db.update({ planOwner: username, weekStartDate: weekStart }, { $push: { goals: goal } }, {}, function (err, updatedGoals) {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                } else {
+                    resolve(updatedGoals);
+                }
+            })
+        })
+    }
+
 }
 
 

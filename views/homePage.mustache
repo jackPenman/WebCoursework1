@@ -18,7 +18,7 @@
     <a href= "/plan">Add a new weekly plan</a>
 
 <h1>Weekly plan</h1>
-<h2>week start date : {{startDate}}</h2> 
+<h2>{{startDate}}</h2> 
 <table>
 <tr>
 <th> Goal title </th>
@@ -41,6 +41,18 @@
  {{/goals}} 
 
 </table>
+
+<form method="post" role="form">
+<div class="form-group">
+ <div class="form-group">
+    <label for="chosenDate">Enter date for weekly plan that you wish to view:</label>
+    <input type="date" class="form-control" id="chosenDate"
+    name="chosenDate" required>
+ </div>
+ <div class="form-group">
+    <input type="submit" value="submit" class="btn btn-primary">
+ </div>
+</form>
 
 </body>
 

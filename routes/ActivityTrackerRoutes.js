@@ -11,8 +11,10 @@ const app = express();
 const router = express.Router();
 app.use(express.static(public));
 
-router.get('/', ensureLoggedIn('/login'), HomeController.landing_page)
+router.get('/', ensureLoggedIn('/login'), HomeController.landing_page);
+router.post('/', ensureLoggedIn('/login'), HomeController.change_week)
 router.post('/add', ensureLoggedIn('/login'), HomeController.post_new_entry);
+router.get('/add', ensureLoggedIn('/login'), HomeController.get_new_entry);
 router.get('/plan', ensureLoggedIn('/login'), HomeController.addPlan);
 router.post('/plan', ensureLoggedIn('/login'), HomeController.create_new_plan);
 router.post('/register', RegisterController.post_new_user);
@@ -33,7 +35,7 @@ router.use(function (req, res) {
 // router.use(function (err, req, res, next) {
 //     res.status(500);
 //     res.type('text/plain');
-//     res.send(err);
+//     res.send('There has been an error <a href=\"\"\>Back to home</a>');
 // })
 
 
