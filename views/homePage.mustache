@@ -2,7 +2,6 @@
 <html>
 
 <head>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style>
         table, th, td {
   border: 1px solid black;
@@ -15,22 +14,25 @@
     {{>navbar}}
     </nav>
     <br>
+
+
+<h1>Weekly plan</h1>
+<h2>{{startDate}}</h2> 
     <a href= "/add" class="btn btn-primary btn-sm" role="button">Add new goal</a>
     <a href= "/update" class="btn btn-primary btn-sm" role="button">Update a goal</a>
     <a href= "/remove" class="btn btn-primary btn-sm" role="button">Remove a goal</a>
     <a href= "/progress" class="btn btn-primary btn-sm" role="button">Add progress to a goal</a>
     <a href= "/filter" class="btn btn-primary btn-sm" role="button">Show incomplete goals</a>
     <a href= "/plan" class="btn btn-warning btn-sm" role="button">Add a new weekly plan</a>
-
-<h1>Weekly plan</h1>
-<h2>{{startDate}}</h2> 
-<table>
+    <br>
+<table class= 'table'>
 <tr>
 <th> Goal title </th>
 <th> Goal Description </th>
 <th> Started on </th>
 <th> Finish by </th>
 <th> Target Reps </th>
+<th> completedReps </th>
 <th> isComplete </th>
 
 </tr> 
@@ -41,6 +43,7 @@
 <td>{{startDate}}</td>
 <td>{{endDate}}</td>
 <td>{{targetReps}}</td>
+<td>{{completedReps}}</td>
 <td>{{isComplete}}</td>
 </tr>
  {{/goals}} 

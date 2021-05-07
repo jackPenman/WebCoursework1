@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+   <nav>
+    {{>navbar}}
+    </nav>
+    <br>
+<body class="container">
+<h2>Add progress to goal</h2>
+<p>Adding progress for for {{goalTitle}}</p>
+<form method="post" role="form" action = "/addProgressToGoal">
+<input value={{startDate}} id="weekStartDate" name="weekStartDate" hidden>
+ <div class="form-group">
+    <label for="completedReps">How many reps have you completed for this Goal?</label>
+    <input type="number" class="form-control" id="completedReps"
+    name="completedReps" placeholder="completed Reps" required>
+ </div>
+ <input value={{goalTitle}} id="goalTitle" name="goalTitle" hidden>
+
+ <div class="form-group">
+    <input type="submit" value="submit" class="btn btn-primary">
+ </div>
+</form>
+</body>
+</html>

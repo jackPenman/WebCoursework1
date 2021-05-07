@@ -117,15 +117,24 @@ class WeeklyPlan {
     }
 
 
-    addProgress(week, user, titleToRemove) {
-        this.getAllGoalsForUserAndWeek(user, week).then((json) => {
-            var goalsToChange = json.goals;
-            let updated = goalsToChange.filter(function (goal) {
-                return goal.title !== titleToRemove;
+    addProgress(weekStart, username, goalTitle, completedReps) {
+
+        this.getAllGoalsForUserAndWeek(username, weekStart).then((json) => {
+            var savedGoals = json.goals;
+            let goalToProgress = savedGoals.filter(function (goal) {
+                return goal.title === goalTitle;
             });
-            console.log(updated);
+            savedGoals = savedGoals.filter(function (goal) {
+                return goal.title !== goalTitle;
+            });
+            goalToProgress[0].completedReps = completedReps;
+            if (goalToProgress[0].targetReps === completedReps) {
+                goalToProgress[0].isComplete = true;
+            }
+            savedGoals.push(goalToProgress[0]);
+            console.log(savedGoals);
             new Promise((resolve, reject) => {
-                this.db.update({ planOwner: user, weekStartDate: week }, { $set: { goals: updated } }, {}, function (err, updatedGoals) {
+                this.db.update({ planOwner: username, weekStartDate: weekStart }, { $set: { goals: savedGoals } }, {}, function (err, updatedGoals) {
                     if (err) {
                         console.log(err);
                         reject(err);
@@ -134,7 +143,7 @@ class WeeklyPlan {
                     }
                 })
             }).then((updatedRows) => {
-                console.log("Goal removed from " + updatedRows + " rows");
+                console.log("Goal updated, " + updatedRows + " rows altered");
             }).catch((err) => {
                 console.log('promise rejected', err);
             })
@@ -142,8 +151,8 @@ class WeeklyPlan {
             console.log(err);
         });
 
-    }
 
+    }
 
 
     addEntry(title, description, startDate, endDate, targetReps, username, weekStart) {
@@ -154,6 +163,7 @@ class WeeklyPlan {
             startDate: startDate,
             endDate: endDate,
             targetReps: targetReps,
+            completedReps: 0,
             isComplete: false
         }
         return new Promise((resolve, reject) => {
@@ -168,6 +178,7 @@ class WeeklyPlan {
         })
     }
 
+
     updateGoalDetails(title, description, startDate, endDate, targetReps, username, weekStart, previousTitle) {
         this.getAllGoalsForUserAndWeek(username, weekStart).then((json) => {
             var goal = {
@@ -176,6 +187,7 @@ class WeeklyPlan {
                 startDate: startDate,
                 endDate: endDate,
                 targetReps: targetReps,
+                completedReps: 0,
                 isComplete: false
             }
             var goalsUpdate = json.goals;

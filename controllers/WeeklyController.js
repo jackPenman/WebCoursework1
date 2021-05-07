@@ -74,6 +74,7 @@ exports.create_new_plan = function (req, res) {
             endDate: req.body.endDate1,
             description: req.body.description1,
             targetReps: req.body.target1,
+            completedReps: 0,
             isComplete: false
         },
         {
@@ -82,6 +83,7 @@ exports.create_new_plan = function (req, res) {
             endDate: req.body.endDate2,
             description: req.body.description2,
             targetReps: req.body.target2,
+            completedReps: 0,
             isComplete: false
         }, {
             title: req.body.title3,
@@ -89,6 +91,7 @@ exports.create_new_plan = function (req, res) {
             endDate: req.body.endDate3,
             description: req.body.description3,
             targetReps: req.body.target3,
+            completedReps: 0,
             isComplete: false
         },
     ]
@@ -118,6 +121,24 @@ exports.updateGoal = function (req, res) {
     }
 }
 
+exports.progressGoal = function (req, res) {
+    if (req.body.weekStartDate === 'id="weekStartDate"') {
+        res.redirect('/progress');
+    }
+    else {
+        console.log("update details");
+        console.log(req.body);
+        res.render('progressDetails', {
+            'startDate': req.body.weekStartDate,
+            'goalTitle': req.body.updateTitle
+        });
+    }
+}
+
+exports.showProgressPage = function (req, res) {
+    res.render('progress');
+}
+
 exports.updateGoalDetails = function (req, res) {
     console.log("updating goal details");
     dao.updateGoalDetails(req.body.title, req.body.description, req.body.startDate, req.body.endDate, req.body.targetReps, req.user.user, getMonday(req.body.weekStartDate), req.body.previous);
@@ -138,13 +159,40 @@ exports.showOptionsForUpdate = function (req, res) {
                 'error': 'No weekly plan found for selected date'
             });
         }
-        res.render('updateGoal', {
+        res.render('progress', {
             'goals': json.goals,
             'startDate': chosenDate
         });
     }).catch((err) => {
         console.log('promise rejected', err);
         res.render('updateGoal', {
+            'error': 'No weekly plan found for selected date'
+        });
+    })
+}
+
+
+
+exports.progressGoalWithReps = function (req, res) {
+    dao.addProgress(getMonday(req.body.weekStartDate), req.user.user, req.body.goalTitle, req.body.completedReps);
+    res.redirect('/');
+}
+exports.showOptionsForProgress = function (req, res) {
+    let user = req.user.user;
+    let chosenDate = getMonday(req.body.weekStartDate);
+    dao.getAllGoalsForUserAndWeek(user, chosenDate).then((json) => {
+        if (json.goals === null) {
+            res.render('progress', {
+                'error': 'No weekly plan found for selected date'
+            });
+        }
+        res.render('progress', {
+            'goals': json.goals,
+            'startDate': chosenDate
+        });
+    }).catch((err) => {
+        console.log('promise rejected', err);
+        res.render('progress', {
             'error': 'No weekly plan found for selected date'
         });
     })

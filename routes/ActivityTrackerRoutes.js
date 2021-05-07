@@ -23,12 +23,15 @@ router.get('/profile', ensureLoggedIn('/login'), function (req, res) {
     res.send("user profile page, will display information relating to current logged in user");
 })
 router.get('/update', ensureLoggedIn('/login'), HomeController.showUpdatePage);
-router.post('/update', ensureLoggedIn('/login'), HomeController.showOptionsForUpdate);
+router.get('/progress', ensureLoggedIn('/login'), HomeController.showProgressPage);
 
 // post handeling
+router.post('/update', ensureLoggedIn('/login'), HomeController.showOptionsForUpdate);
+router.post('/progress', ensureLoggedIn('/login'), HomeController.showOptionsForProgress);
+router.post('/progressGoal', ensureLoggedIn('/login'), HomeController.progressGoal);
 router.post("/updateGoal", ensureLoggedIn('/login'), HomeController.updateGoal);
 router.post("/updateGoalDetails", ensureLoggedIn('/login'), HomeController.updateGoalDetails);
-
+router.post("/addProgressToGoal", ensureLoggedIn('/login'), HomeController.progressGoalWithReps);
 router.post('/remove', ensureLoggedIn('/login'), HomeController.showOptions);
 router.post('/removeGoal', ensureLoggedIn('/login'), HomeController.deleteGoal);
 router.post('/', ensureLoggedIn('/login'), HomeController.change_week);
