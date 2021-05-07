@@ -7,8 +7,8 @@
     </nav>
     <br>
 <body class="container">
-<h2>Remove a goal from a plan</h2>
-<p>Input the date that coresponds to the weekly plan you wish to remove the goal from</p>
+<h2>Add updates to a goal</h2>
+<p>Input the date that coresponds to the weekly plan you wish to update the goal from</p>
 <p>{{error}}</p> 
 <form method="post" role="form">
 <div class="form-group">
@@ -18,16 +18,18 @@
  </div>
      <input type="submit" value="submit">
 </form>
-<p>select the goal you wish to remove</p>
-<form method="post" role="form" action="/removeGoal">
+<p>select the goal you wish to update</p>
+
+<form method="post" role="form" action="/updateGoal">
 <input value={{startDate}} id="weekStartDate" name="weekStartDate" hidden>
-<select id="removeTitle" name="removeTitle">
+<select id="updateTitle" name="updateTitle">
 {{#goals}}
 <option value="{{title}}">{{title}}</option>
 {{/goals}}
 </select>
 <input type="submit" value="Submit">
 </form>
+
 </body>
 </html>
         

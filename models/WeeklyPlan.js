@@ -116,6 +116,7 @@ class WeeklyPlan {
 
     }
 
+
     addProgress(week, user, titleToRemove) {
         this.getAllGoalsForUserAndWeek(user, week).then((json) => {
             var goalsToChange = json.goals;
@@ -167,6 +168,43 @@ class WeeklyPlan {
         })
     }
 
+    updateGoalDetails(title, description, startDate, endDate, targetReps, username, weekStart, previousTitle) {
+        this.getAllGoalsForUserAndWeek(username, weekStart).then((json) => {
+            var goal = {
+                title: title,
+                description: description,
+                startDate: startDate,
+                endDate: endDate,
+                targetReps: targetReps,
+                isComplete: false
+            }
+            var goalsUpdate = json.goals;
+            goalsUpdate = goalsUpdate.filter(function (goal) {
+                return goal.title !== previousTitle;
+            });
+            goalsUpdate.push(goal);
+            console.log("UPDATED HOPEFULLY");
+            console.log(goalsUpdate);
+            new Promise((resolve, reject) => {
+                this.db.update({ planOwner: username, weekStartDate: weekStart }, { $set: { goals: goalsUpdate } }, {}, function (err, updatedGoals) {
+                    if (err) {
+                        console.log(err);
+                        reject(err);
+                    } else {
+                        resolve(updatedGoals);
+                    }
+                })
+            }).then((updatedRows) => {
+                console.log("Goal updated, " + updatedRows + " rows altered");
+            }).catch((err) => {
+                console.log('promise rejected', err);
+            })
+        }).catch((err) => {
+            console.log(err);
+        });
+
+
+    }
 }
 
 

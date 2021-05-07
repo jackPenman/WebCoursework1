@@ -100,13 +100,58 @@ exports.showRemovePage = function (req, res) {
     res.render('deleteGoal');
 }
 
+exports.showUpdatePage = function (req, res) {
+    res.render('updateGoal');
+}
+
+exports.updateGoal = function (req, res) {
+    if (req.body.weekStartDate === 'id="weekStartDate"') {
+        res.redirect('/update');
+    }
+    else {
+        console.log("update details");
+        console.log(req.body);
+        res.render('updateGoalDetails', {
+            'startDate': req.body.weekStartDate,
+            'goalTitle': req.body.updateTitle
+        });
+    }
+}
+
+exports.updateGoalDetails = function (req, res) {
+    console.log("updating goal details");
+    dao.updateGoalDetails(req.body.title, req.body.description, req.body.startDate, req.body.endDate, req.body.targetReps, req.user.user, getMonday(req.body.weekStartDate), req.body.previous);
+    res.redirect('/');
+}
 exports.deleteGoal = function (req, res) {
     console.log(req.body);
     dao.deleteEntry(getMonday(req.body.weekStartDate), req.user.user, req.body.removeTitle);
     res.redirect('/');
 }
 
-exports.showGoalOptions = function (req, res) {
+exports.showOptionsForUpdate = function (req, res) {
+    let user = req.user.user;
+    let chosenDate = getMonday(req.body.weekStartDate);
+    dao.getAllGoalsForUserAndWeek(user, chosenDate).then((json) => {
+        if (json.goals === null) {
+            res.render('updateGoal', {
+                'error': 'No weekly plan found for selected date'
+            });
+        }
+        res.render('updateGoal', {
+            'goals': json.goals,
+            'startDate': chosenDate
+        });
+    }).catch((err) => {
+        console.log('promise rejected', err);
+        res.render('updateGoal', {
+            'error': 'No weekly plan found for selected date'
+        });
+    })
+}
+
+
+exports.showOptions = function (req, res) {
     let user = req.user.user;
     let chosenDate = getMonday(req.body.weekStartDate);
     dao.getAllGoalsForUserAndWeek(user, chosenDate).then((json) => {
