@@ -1,0 +1,35 @@
+        
+<!DOCTYPE html>
+<html>
+<body>
+   <nav>
+    {{>navbar}}
+    </nav>
+    <br>
+<body class="container">
+<h2>Add updates to a goal</h2>
+<p>Input the date that coresponds to the weekly plan you wish to update the goal from</p>
+<p>{{error}}</p> 
+<form method="post" role="form">
+<div class="form-group">
+    <label for="weekStartDate">Plan date</label>
+    <input type="date" class="form-control" id="weekStartDate"
+    name="weekStartDate" placeholder="weekStartDate" required>
+ </div>
+     <input type="submit" value="submit">
+</form>
+<p>select the goal you wish to update</p>
+
+<form method="post" role="form" action="/updateGoal">
+<input value={{startDate}} id="weekStartDate" name="weekStartDate" hidden>
+<select id="updateTitle" name="updateTitle">
+{{#goals}}
+<option value="{{title}}">{{title}}</option>
+{{/goals}}
+</select>
+<input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
+        

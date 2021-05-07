@@ -6,14 +6,10 @@
     </nav>
     <br>
 <body class="container">
-<h2>Add a new goal to your weekly plan</h2>
-<p>Input the date that coresponds to the weekly plan you wish to add the goal to</p>
-<form method="post" role="form">
-<div class="form-group">
-    <label for="weekStartDate">Plan date</label>
-    <input type="date" class="form-control" id="weekStartDate"
-    name="weekStartDate" placeholder="weekStartDate" required>
- </div>
+<h2>Update goal details</h2>
+<p>updating details for {{goalTitle}}</p>
+<form method="post" role="form" action = "/updateGoalDetails">
+<input value={{startDate}} id="weekStartDate" name="weekStartDate" hidden>
  <div class="form-group">
     <label for="title">Title</label>
     <input type="text" class="form-control" id="title"
@@ -41,6 +37,8 @@ required>
     <input type="number" class="form-control" id="targetReps"
     name="targetReps" required>
  </div>
+ <input value={{goalTitle}} id="previous" name="previous" hidden>
+
  <div class="form-group">
     <input type="submit" value="submit" class="btn btn-primary">
  </div>
