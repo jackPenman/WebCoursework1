@@ -1,0 +1,34 @@
+        
+<!DOCTYPE html>
+<html>
+<body>
+   <nav>
+    {{>navbar}}
+    </nav>
+    <br>
+<body class="container">
+<h2>Remove a goal from a plan</h2>
+<p>Input the date that coresponds to the weekly plan you wish to remove the goal from</p>
+<p>{{error}}</p> 
+<form method="post" role="form">
+<div class="form-group">
+    <label for="weekStartDate">Plan date</label>
+    <input type="date" class="form-control" id="weekStartDate"
+    name="weekStartDate" placeholder="weekStartDate" required>
+ </div>
+     <input type="submit" value="submit">
+</form>
+<p>select the goal you wish to remove</p>
+{{#goals}}
+<form method="post" role="form" action="/removeGoal">
+<input value={{startDate}} id="weekStartDate" name="weekStartDate" hidden>
+<select id="removeTitle" name="removeTitle">
+<option value="{{title}}">{{title}}</option>
+</select>
+<input type="submit" value="Submit">
+</form>
+{{/goals}}
+
+</body>
+</html>
+        

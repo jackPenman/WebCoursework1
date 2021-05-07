@@ -26,8 +26,7 @@ exports.change_week = function (req, res) {
     }).catch((err) => {
         console.log('promise rejected', err);
         res.render('homePage', {
-            'startDate': 'No weekly plan found for selected date',
-            'goals': []
+            'startDate': 'No weekly plan found for selected date'
         });
     })
 }
@@ -46,7 +45,7 @@ exports.get_new_entry = function (req, res) {
 
 exports.post_new_entry = function (req, res) {
     console.log(getMonday(req.body.weekStartDate));
-    dao.addEntry(req.body.title, req.body.description, req.body.startDate, req.body.endDate, req.user.user, getMonday(req.body.weekStartDate)).then((updatedRows) => {
+    dao.addEntry(req.body.title, req.body.description, req.body.startDate, req.body.endDate, req.body.targetReps, req.user.user, getMonday(req.body.weekStartDate)).then((updatedRows) => {
         console.log("rows updated: " + updatedRows);
         res.redirect('/');
     }).catch((err) => {
@@ -74,22 +73,56 @@ exports.create_new_plan = function (req, res) {
             startDate: req.body.startDate1,
             endDate: req.body.endDate1,
             description: req.body.description1,
-            progressMade: 0
+            targetReps: req.body.target1,
+            isComplete: false
         },
         {
             title: req.body.title2,
             startDate: req.body.startDate2,
             endDate: req.body.endDate2,
             description: req.body.description2,
-            progressMade: 0
+            targetReps: req.body.target2,
+            isComplete: false
         }, {
             title: req.body.title3,
             startDate: req.body.startDate3,
             endDate: req.body.endDate3,
             description: req.body.description3,
-            progressMade: 0
+            targetReps: req.body.target3,
+            isComplete: false
         },
     ]
     dao.addNewPlan(weekstart, req.user.user, goals);
     res.redirect('/');
+}
+
+exports.showRemovePage = function (req, res) {
+    res.render('deleteGoal');
+}
+
+exports.deleteGoal = function (req, res) {
+    console.log(req.body);
+    dao.deleteEntry(getMonday(req.body.weekStartDate), req.user.user, req.body.removeTitle);
+    res.redirect('/');
+}
+
+exports.showGoalOptions = function (req, res) {
+    let user = req.user.user;
+    let chosenDate = getMonday(req.body.weekStartDate);
+    dao.getAllGoalsForUserAndWeek(user, chosenDate).then((json) => {
+        if (json.goals === null) {
+            res.render('deleteGoal', {
+                'error': 'No weekly plan found for selected date'
+            });
+        }
+        res.render('deleteGoal', {
+            'goals': json.goals,
+            'startDate': chosenDate
+        });
+    }).catch((err) => {
+        console.log('promise rejected', err);
+        res.render('deleteGoal', {
+            'error': 'No weekly plan found for selected date'
+        });
+    })
 }

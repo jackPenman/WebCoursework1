@@ -89,29 +89,72 @@ class WeeklyPlan {
         })
     }
 
-    deleteEntry(title, week) {
-        return new Promise((resolve, reject) => {
-            this.db.remove({}, {}, {}, function (err, updatedGoals) {
-                if (err) {
-                    console.log(err);
-                    reject(err);
-                } else {
-                    resolve(updatedGoals);
-                }
+    deleteEntry(week, user, titleToRemove) {
+        this.getAllGoalsForUserAndWeek(user, week).then((json) => {
+            var goalsToChange = json.goals;
+            let updated = goalsToChange.filter(function (goal) {
+                return goal.title !== titleToRemove;
+            });
+            console.log(updated);
+            new Promise((resolve, reject) => {
+                this.db.update({ planOwner: user, weekStartDate: week }, { $set: { goals: updated } }, {}, function (err, updatedGoals) {
+                    if (err) {
+                        console.log(err);
+                        reject(err);
+                    } else {
+                        resolve(updatedGoals);
+                    }
+                })
+            }).then((updatedRows) => {
+                console.log("Goal removed from " + updatedRows + " rows");
+            }).catch((err) => {
+                console.log('promise rejected', err);
             })
-        })
+        }).catch((err) => {
+            console.log(err);
+        });
+
     }
 
-    addEntry(title, description, startDate, endDate, username, weekStart) {
+    addProgress(week, user, titleToRemove) {
+        this.getAllGoalsForUserAndWeek(user, week).then((json) => {
+            var goalsToChange = json.goals;
+            let updated = goalsToChange.filter(function (goal) {
+                return goal.title !== titleToRemove;
+            });
+            console.log(updated);
+            new Promise((resolve, reject) => {
+                this.db.update({ planOwner: user, weekStartDate: week }, { $set: { goals: updated } }, {}, function (err, updatedGoals) {
+                    if (err) {
+                        console.log(err);
+                        reject(err);
+                    } else {
+                        resolve(updatedGoals);
+                    }
+                })
+            }).then((updatedRows) => {
+                console.log("Goal removed from " + updatedRows + " rows");
+            }).catch((err) => {
+                console.log('promise rejected', err);
+            })
+        }).catch((err) => {
+            console.log(err);
+        });
+
+    }
+
+
+
+    addEntry(title, description, startDate, endDate, targetReps, username, weekStart) {
         console.log(weekStart);
         var goal = {
             title: title,
             description: description,
             startDate: startDate,
             endDate: endDate,
-            progressMade: 0
+            targetReps: targetReps,
+            isComplete: false
         }
-        console.log(goal);
         return new Promise((resolve, reject) => {
             this.db.update({ planOwner: username, weekStartDate: weekStart }, { $push: { goals: goal } }, {}, function (err, updatedGoals) {
                 if (err) {

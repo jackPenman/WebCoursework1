@@ -2,6 +2,7 @@
 <html>
 
 <head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style>
         table, th, td {
   border: 1px solid black;
@@ -14,8 +15,12 @@
     {{>navbar}}
     </nav>
     <br>
-    <a href= "/add">Add new goal</a>
-    <a href= "/plan">Add a new weekly plan</a>
+    <a href= "/add" class="btn btn-primary btn-sm" role="button">Add new goal</a>
+    <a href= "/update" class="btn btn-primary btn-sm" role="button">Update a goal</a>
+    <a href= "/remove" class="btn btn-primary btn-sm" role="button">Remove a goal</a>
+    <a href= "/progress" class="btn btn-primary btn-sm" role="button">Add progress to a goal</a>
+    <a href= "/filter" class="btn btn-primary btn-sm" role="button">Show incomplete goals</a>
+    <a href= "/plan" class="btn btn-warning btn-sm" role="button">Add a new weekly plan</a>
 
 <h1>Weekly plan</h1>
 <h2>{{startDate}}</h2> 
@@ -25,7 +30,9 @@
 <th> Goal Description </th>
 <th> Started on </th>
 <th> Finish by </th>
-<th>progress made</th>
+<th> Target Reps </th>
+<th> isComplete </th>
+
 </tr> 
 {{#goals}} 
  <tr>
@@ -33,24 +40,23 @@
 <td>{{description}}</td>
 <td>{{startDate}}</td>
 <td>{{endDate}}</td>
-<td>{{progressMade}} %</td>
+<td>{{targetReps}}</td>
+<td>{{isComplete}}</td>
 </tr>
  {{/goals}} 
  {{^goals}}
- No entries yet.
  {{/goals}} 
 
 </table>
 
 <form method="post" role="form">
-<div class="form-group">
- <div class="form-group">
+ <div >
     <label for="chosenDate">Enter date for weekly plan that you wish to view:</label>
     <input type="date" class="form-control" id="chosenDate"
     name="chosenDate" required>
  </div>
  <div class="form-group">
-    <input type="submit" value="submit" class="btn btn-primary">
+    <input type="submit" value="submit">
  </div>
 </form>
 

@@ -12,7 +12,10 @@ const router = express.Router();
 app.use(express.static(public));
 
 router.get('/', ensureLoggedIn('/login'), HomeController.landing_page);
-router.post('/', ensureLoggedIn('/login'), HomeController.change_week)
+router.get('/remove', ensureLoggedIn('/login'), HomeController.showRemovePage);
+router.post('/remove', ensureLoggedIn('/login'), HomeController.showGoalOptions);
+router.post('/removeGoal', ensureLoggedIn('/login'), HomeController.deleteGoal);
+router.post('/', ensureLoggedIn('/login'), HomeController.change_week);
 router.post('/add', ensureLoggedIn('/login'), HomeController.post_new_entry);
 router.get('/add', ensureLoggedIn('/login'), HomeController.get_new_entry);
 router.get('/plan', ensureLoggedIn('/login'), HomeController.addPlan);
