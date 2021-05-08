@@ -1,0 +1,23 @@
+        
+<!DOCTYPE html>
+<html>
+<body>
+   <nav>
+    {{>navbar}}
+    </nav>
+    <br>
+<body class="container">
+<h2>Show incomplete goals</h2>
+<p>Input the date for the plan you wish to view the incomplete goals for</p>
+<p>{{error}}</p> 
+<form method="post" role="form">
+<div class="form-group">
+    <label for="weekStartDate">Plan date</label>
+    <input type="date" class="form-control" id="weekStartDate"
+    name="weekStartDate" placeholder="weekStartDate" required>
+ </div>
+     <input type="submit" value="submit">
+</form>
+</body>
+</html>
+        

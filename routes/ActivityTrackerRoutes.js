@@ -24,8 +24,10 @@ router.get('/profile', ensureLoggedIn('/login'), function (req, res) {
 })
 router.get('/update', ensureLoggedIn('/login'), HomeController.showUpdatePage);
 router.get('/progress', ensureLoggedIn('/login'), HomeController.showProgressPage);
+router.get('/filter', ensureLoggedIn('/login'), HomeController.showFilterPage);
 
 // post handeling
+router.post('/filter', ensureLoggedIn('/login'), HomeController.filterGoals);
 router.post('/update', ensureLoggedIn('/login'), HomeController.showOptionsForUpdate);
 router.post('/progress', ensureLoggedIn('/login'), HomeController.showOptionsForProgress);
 router.post('/progressGoal', ensureLoggedIn('/login'), HomeController.progressGoal);

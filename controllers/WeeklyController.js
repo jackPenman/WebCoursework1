@@ -107,6 +107,38 @@ exports.showUpdatePage = function (req, res) {
     res.render('updateGoal');
 }
 
+exports.showFilterPage = function (req, res) {
+    res.render('filter');
+}
+
+exports.filterGoals = function (req, res) {
+    let user = req.user.user;
+    let chosenDate = getMonday(req.body.weekStartDate);
+    dao.getAllGoalsForUserAndWeek(user, chosenDate).then((json) => {
+        if (json === null) {
+            res.render('filter', {
+                'error': 'No weekly plan found for this date'
+            });
+        } else {
+            var unfiltered = json.goals;
+            var filtered = unfiltered.filter(function (goal) {
+                return goal.isComplete === false;
+            });
+            console.log(filtered);
+            res.render('homePage', {
+                'startDate': "week start date : " + json.weekStartDate,
+                'user': user,
+                'goals': filtered
+            });
+        }
+    }).catch((err) => {
+        console.log('promise rejected', err);
+        res.render('homePage', {
+            'startDate': 'No weekly plan found for selected date'
+        });
+    })
+}
+
 exports.updateGoal = function (req, res) {
     if (req.body.weekStartDate === 'id="weekStartDate"') {
         res.redirect('/update');
