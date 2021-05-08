@@ -127,8 +127,8 @@ class WeeklyPlan {
             savedGoals = savedGoals.filter(function (goal) {
                 return goal.title !== goalTitle;
             });
-            goalToProgress[0].completedReps = completedReps;
-            if (goalToProgress[0].targetReps === completedReps) {
+            goalToProgress[0].completedReps = (parseInt(goalToProgress[0].completedReps) + parseInt(completedReps));
+            if (parseInt(goalToProgress[0].targetReps) <= parseInt(completedReps)) {
                 goalToProgress[0].isComplete = true;
             }
             savedGoals.push(goalToProgress[0]);
