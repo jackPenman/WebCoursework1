@@ -13,8 +13,8 @@ class User {
 
     init() {
         this.db.insert({
-            user: 'Ann',
-            password: '$2b$10$bnEYkqZM.MhEF/LycycymOeVwkQONq8kuAUGx6G5tF9UtUcaYDs3S'
+            user: 'JackPenman',
+            password: '$2y$10$1pYMdma9l093RmU4FWoAzuogWybZdShpO7mIuo1BVzPIMZmy5lgd.'
         });
         return this;
     }
