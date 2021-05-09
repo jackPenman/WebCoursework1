@@ -95,8 +95,26 @@ exports.create_new_plan = function (req, res) {
             isComplete: false
         },
     ]
-    dao.addNewPlan(weekstart, req.user.user, goals);
-    res.redirect('/');
+    dao.getAllPlansForUser(req.user.user).then((json) => {
+        var existingPlans = json;
+        existingPlans = existingPlans.filter(function (week) {
+            return week.weekStartDate === weekstart;
+        });
+        if (existingPlans.length === 0) {
+            console.log("boo");
+            dao.addNewPlan(weekstart, req.user.user, goals);
+            res.redirect('/');
+        }
+        else {
+            console.log("fuck");
+            res.render('addPlan', {
+                'error': 'plan already exists for this week'
+            });
+        }
+    }).catch((err) => {
+        console.log('promise rejected', err);
+    })
+
 }
 
 exports.showRemovePage = function (req, res) {
@@ -109,6 +127,71 @@ exports.showUpdatePage = function (req, res) {
 
 exports.showFilterPage = function (req, res) {
     res.render('filter');
+}
+
+
+exports.showSharePage = function (req, res) {
+    dao.getAllPlansForUser(req.user.user).then((json) => {
+        existing = json;
+        var weekDates = [];
+        for (var i = 0; i < existing.length; i++) {
+            weekDates.push({ week: existing[i].weekStartDate });
+        }
+        if (weekDates.length === 0) {
+            res.render('share');
+        }
+        else {
+            res.render('share', {
+                'weeks': weekDates
+            });
+        }
+    }).catch((err) => {
+        console.log('promise rejected', err);
+
+    })
+}
+
+exports.generateShareLink = function (req, res) {
+    dao.getAllPlansForUser(req.user.user).then((json) => {
+        existing = json;
+        var weekDates = [];
+        for (var i = 0; i < existing.length; i++) {
+            weekDates.push({ week: existing[i].weekStartDate });
+        }
+        if (req.body.shareWeek === 'NoGoals') {
+            res.render('share',
+                {
+                    'error': 'you have no plans, please add a plan before sharing'
+                });
+        }
+        else {
+            res.render('share',
+                {
+                    'shareLink': 'send this link to the person you are sharing with: ' + 'http://localhost:3000/sharelink?weekStartDate=' + req.body.shareWeek + '&user=' + req.user.user,
+                    'weeks': weekDates
+                }
+            )
+        }
+    }).catch((err) => {
+        console.log('promise rejected', err);
+
+    })
+}
+
+exports.showSharedPlan = function (req, res) {
+    let startDate = req.query.weekStartDate;
+    let user = req.query.user;
+    dao.getAllGoalsForUserAndWeek()
+    dao.getAllGoalsForUserAndWeek(user, startDate).then((json) => {
+        res.render('sharedPlan', {
+            'startDate': "week start date : " + json.weekStartDate,
+            'user': user,
+            'goals': json.goals
+        });
+    }).catch((err) => {
+        console.log('promise rejected', err);
+
+    })
 }
 
 exports.filterGoals = function (req, res) {
@@ -191,7 +274,7 @@ exports.showOptionsForUpdate = function (req, res) {
                 'error': 'No weekly plan found for selected date'
             });
         }
-        res.render('progress', {
+        res.render('updateGoal', {
             'goals': json.goals,
             'startDate': chosenDate
         });

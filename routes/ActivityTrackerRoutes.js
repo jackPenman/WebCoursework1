@@ -18,16 +18,17 @@ router.get('/register', RegisterController.new_user_page);
 router.get('/login', LoginController.login_page)
 router.get("/logout", ensureLoggedIn('/login'), LogoutController.logout);
 router.get('/add', ensureLoggedIn('/login'), HomeController.get_new_entry);
+router.get('/share', ensureLoggedIn('/login'), HomeController.showSharePage);
 router.get('/plan', ensureLoggedIn('/login'), HomeController.addPlan);
-router.get('/profile', ensureLoggedIn('/login'), function (req, res) {
-    res.send("user profile page, will display information relating to current logged in user");
-})
 router.get('/update', ensureLoggedIn('/login'), HomeController.showUpdatePage);
 router.get('/progress', ensureLoggedIn('/login'), HomeController.showProgressPage);
 router.get('/filter', ensureLoggedIn('/login'), HomeController.showFilterPage);
+router.get('/sharelink', HomeController.showSharedPlan);
+
 
 // post handeling
 router.post('/filter', ensureLoggedIn('/login'), HomeController.filterGoals);
+router.post('/share', ensureLoggedIn('/login'), HomeController.generateShareLink);
 router.post('/update', ensureLoggedIn('/login'), HomeController.showOptionsForUpdate);
 router.post('/progress', ensureLoggedIn('/login'), HomeController.showOptionsForProgress);
 router.post('/progressGoal', ensureLoggedIn('/login'), HomeController.progressGoal);

@@ -12,63 +12,44 @@ class WeeklyPlan {
 
     init() {
         this.db.insert({
-            planOwner: 'Peter',
-            weekStartDate: '2021-03-15',
-            goals: [{
-                title: 'running',
-                startDate: '2021-03-15',
-                endDate: '2021-03-19',
-                description: 'run 10 km',
-                progressMade: '45.5'
-            },
-            {
-                title: 'Push ups',
-                startDate: '2021-03-15',
-                endDate: '2021-03-19',
-                description: 'Do 40000 push ups',
-                progressMade: '10'
-            },
-            {
-                title: 'Dancing',
-                startDate: '2021-03-15',
-                endDate: '2021-03-19',
-                description: 'Dance for fun',
-                progressMade: '100'
-            }
+            planOwner: "Ann",
+            weekStartDate: "2021-5-3",
+            goals: [
+                {
+                    title: "Goal2",
+                    startDate: "2021-05-13",
+                    endDate: "2021-05-27",
+                    description: "Goal2",
+                    targetReps: "383477474",
+                    completedReps: 0,
+                    isComplete: false
+                },
+                {
+                    title: "goal3",
+                    startDate: "2021-05-08",
+                    endDate: "2021-05-08",
+                    description: "goal3 ",
+                    targetReps: "10",
+                    completedReps: 0,
+                    isComplete: false
+                },
+                {
+                    title: "goal1",
+                    startDate: "2021-05-08",
+                    endDate: "2021-05-27",
+                    description: "goal1",
+                    targetReps: "5",
+                    completedReps: 0,
+                    isComplete: false
+                }
             ]
         });
-        this.db.insert({
-            planOwner: 'Ann',
-            weekStartDate: '2021-06-22',
-            goals: [{
-                title: 'running',
-                startDate: '2021-03-15',
-                endDate: '2021-03-19',
-                description: 'run 10 km',
-                progressMade: '45.5'
-            },
-            {
-                title: 'Push ups',
-                startDate: '2021-03-15',
-                endDate: '2021-03-19',
-                description: 'Do 40000 push ups',
-                progressMade: '10'
-            },
-            {
-                title: 'Dancing',
-                startDate: '2021-03-15',
-                endDate: '2021-03-19',
-                description: 'Dance for fun',
-                progressMade: '100'
-            }
-            ]
-        });
+
     }
 
 
 
     getAllGoalsForUserAndWeek(username, weekStartDate) {
-        console.log("week start date " + weekStartDate);
         return new Promise((resolve, reject) => {
             this.db.findOne({ planOwner: username, weekStartDate: weekStartDate }, function (err, entry) {
                 if (err) {
@@ -80,8 +61,25 @@ class WeeklyPlan {
         })
     }
 
+    getAllPlansForUser(username) {
+        return new Promise((resolve, reject) => {
+            this.db.find({ planOwner: username }, function (err, entry) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(entry);
+                }
+            })
+        })
+    }
+
 
     addNewPlan(weekstartDate, userName, goals) {
+
+        this.getAllPlansForUser(userName).then((json) => {
+            var existingPlans = json;
+            console.log(existingPlans);
+        })
         this.db.insert({
             planOwner: userName,
             weekStartDate: weekstartDate,
