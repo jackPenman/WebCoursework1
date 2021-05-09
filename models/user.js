@@ -10,19 +10,12 @@ class User {
             this.db = new NeDB();
         }
     }
-    // for the demo the password is the bcrypt of the user name
+
     init() {
         this.db.insert({
-            user: 'Peter',
-            password: '$2b$10$I82WRFuGghOMjtu3LLZW9OAMrmYOlMZjEEkh.vx.K2MM05iu5hY2C'
+            user: 'JackPenman',
+            password: '$2y$10$1pYMdma9l093RmU4FWoAzuogWybZdShpO7mIuo1BVzPIMZmy5lgd.'
         });
-        //console.log('user record inserted in init');
-
-        this.db.insert({
-            user: 'Ann',
-            password: '$2b$10$bnEYkqZM.MhEF/LycycymOeVwkQONq8kuAUGx6G5tF9UtUcaYDs3S'
-        });
-        //console.log('user record inserted in init');
         return this;
     }
     create(username, password) {

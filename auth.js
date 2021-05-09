@@ -4,11 +4,9 @@ const UserDao = require('./models/user');
 const bcrypt = require('bcrypt');
 const userModel = new UserDao("user.db");
 exports.init = function (app) {
-    // setup password
     passport.use(new Strategy(
-        function (username, password, cb) { // cb is callback
+        function (username, password, cb) {
             userModel.lookup(username, function (err, user) {
-                //console.log('lookup', username);
                 if (err) {
                     console.log('error looking up user', err);
                     return cb(err);
@@ -17,7 +15,6 @@ exports.init = function (app) {
                     console.log('user ', username, ' not found');
                     return cb(null, false);
                 }
-                //compare provided password with stored password
                 bcrypt.compare(password, user.password,
                     function (err, result) {
                         if (result) {
@@ -28,8 +25,7 @@ exports.init = function (app) {
                     });
             });
         }));
-    //For session handling we need serialize and deserialize users.
-    //Simplest is just to use the 'username' field.
+
     passport.serializeUser(function (user, cb) {
         cb(null, user.user);
     });

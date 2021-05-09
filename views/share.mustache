@@ -1,0 +1,29 @@
+        
+<!DOCTYPE html>
+<html>
+<body>
+   <nav>
+    {{>navbar}}
+    </nav>
+    <br>
+<body class="container">
+<h2>Share a plan </h2>
+<p>select the Weekly plan you wish to share </p>
+<p>{{error}}</p> 
+<form method="post" role="form">
+<select id="shareWeek" name="shareWeek">
+{{#weeks}}
+<option value="{{week}}">{{week}}</option>
+{{/weeks}}
+ {{^weeks}}
+ <option value="NoGoals">no goals to share yet, add some!</option>
+ {{/weeks}} 
+</select>
+<input type="submit" value="Submit">
+</form>
+
+{{shareLink}}
+
+</body>
+</html>
+        

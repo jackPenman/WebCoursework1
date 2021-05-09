@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<style>
+        table, th, td {
+  border: 1px solid black;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Weekly plan</h1>
+<h2>{{startDate}}</h2> 
+<table class= 'table'>
+<tr>
+<th> Goal title </th>
+<th> Goal Description </th>
+<th> Started on </th>
+<th> Finish by </th>
+<th> Target Reps </th>
+<th> completedReps </th>
+<th> isComplete </th>
+
+</tr> 
+{{#goals}} 
+ <tr>
+<td>{{title}}</td>
+<td>{{description}}</td>
+<td>{{startDate}}</td>
+<td>{{endDate}}</td>
+<td>{{targetReps}}</td>
+<td>{{completedReps}}</td>
+<td>{{isComplete}}</td>
+</tr>
+ {{/goals}} 
+ {{^goals}}
+ {{/goals}} 
+
+</table>
+
+
+</body>
+
+</html>
