@@ -52,11 +52,11 @@ router.use(function (req, res) {
     res.send('404 Not found.');
 })
 
-// router.use(function (err, req, res, next) {
-//     res.status(500);
-//     res.type('text/plain');
-//     res.send('There has been an error <a href=\"\"\>Back to home</a>');
-// })
+router.use(function (err, req, res, next) {
+    res.status(500);
+    res.type('text/plain');
+    res.send('There has been an error <a href=\"\"\>Back to home</a>');
+})
 
 
 module.exports = router;
