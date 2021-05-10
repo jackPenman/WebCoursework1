@@ -2,10 +2,10 @@ const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const UserDao = require('./models/user');
 const bcrypt = require('bcrypt');
-const userModel = new UserDao("user.db");
 exports.init = function (app) {
     passport.use(new Strategy(
         function (username, password, cb) {
+            userModel = new UserDao("user.db");
             userModel.lookup(username, function (err, user) {
                 if (err) {
                     console.log('error looking up user', err);
