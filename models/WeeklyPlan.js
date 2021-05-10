@@ -78,7 +78,6 @@ class WeeklyPlan {
 
         this.getAllPlansForUser(userName).then((json) => {
             var existingPlans = json;
-            console.log(existingPlans);
         })
         this.db.insert({
             planOwner: userName,
@@ -93,7 +92,6 @@ class WeeklyPlan {
             let updated = goalsToChange.filter(function (goal) {
                 return goal.title !== titleToRemove;
             });
-            console.log(updated);
             new Promise((resolve, reject) => {
                 this.db.update({ planOwner: user, weekStartDate: week }, { $set: { goals: updated } }, {}, function (err, updatedGoals) {
                     if (err) {
@@ -130,7 +128,6 @@ class WeeklyPlan {
                 goalToProgress[0].isComplete = true;
             }
             savedGoals.push(goalToProgress[0]);
-            console.log(savedGoals);
             new Promise((resolve, reject) => {
                 this.db.update({ planOwner: username, weekStartDate: weekStart }, { $set: { goals: savedGoals } }, {}, function (err, updatedGoals) {
                     if (err) {
@@ -154,7 +151,6 @@ class WeeklyPlan {
 
 
     addEntry(title, description, startDate, endDate, targetReps, username, weekStart) {
-        console.log(weekStart);
         var goal = {
             title: title,
             description: description,
@@ -193,7 +189,6 @@ class WeeklyPlan {
                 return goal.title !== previousTitle;
             });
             goalsUpdate.push(goal);
-            console.log("UPDATED HOPEFULLY");
             console.log(goalsUpdate);
             new Promise((resolve, reject) => {
                 this.db.update({ planOwner: username, weekStartDate: weekStart }, { $set: { goals: goalsUpdate } }, {}, function (err, updatedGoals) {

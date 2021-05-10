@@ -44,7 +44,6 @@ exports.get_new_entry = function (req, res) {
 }
 
 exports.post_new_entry = function (req, res) {
-    console.log(getMonday(req.body.weekStartDate));
     dao.addEntry(req.body.title, req.body.description, req.body.startDate, req.body.endDate, req.body.targetReps, req.user.user, getMonday(req.body.weekStartDate)).then((updatedRows) => {
         console.log("rows updated: " + updatedRows);
         res.redirect('/');
@@ -101,12 +100,10 @@ exports.create_new_plan = function (req, res) {
             return week.weekStartDate === weekstart;
         });
         if (existingPlans.length === 0) {
-            console.log("boo");
             dao.addNewPlan(weekstart, req.user.user, goals);
             res.redirect('/');
         }
         else {
-            console.log("fuck");
             res.render('addPlan', {
                 'error': 'plan already exists for this week'
             });
@@ -207,7 +204,6 @@ exports.filterGoals = function (req, res) {
             var filtered = unfiltered.filter(function (goal) {
                 return goal.isComplete === false;
             });
-            console.log(filtered);
             res.render('homePage', {
                 'startDate': "week start date : " + json.weekStartDate,
                 'user': user,
@@ -227,8 +223,6 @@ exports.updateGoal = function (req, res) {
         res.redirect('/update');
     }
     else {
-        console.log("update details");
-        console.log(req.body);
         res.render('updateGoalDetails', {
             'startDate': req.body.weekStartDate,
             'goalTitle': req.body.updateTitle
@@ -241,8 +235,6 @@ exports.progressGoal = function (req, res) {
         res.redirect('/progress');
     }
     else {
-        console.log("update details");
-        console.log(req.body);
         res.render('progressDetails', {
             'startDate': req.body.weekStartDate,
             'goalTitle': req.body.updateTitle
@@ -260,7 +252,6 @@ exports.updateGoalDetails = function (req, res) {
     res.redirect('/');
 }
 exports.deleteGoal = function (req, res) {
-    console.log(req.body);
     dao.deleteEntry(getMonday(req.body.weekStartDate), req.user.user, req.body.removeTitle);
     res.redirect('/');
 }
